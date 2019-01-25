@@ -1,5 +1,7 @@
 ---
 layout: post
+title:  "ECDSA and Bitcoin"
+categories: blog update
 ---
 [Collision-Resistant Elliptic Curve Hash Functions][patent] were invented by Brown et al, usually mentioned or refered as Standards for Efficient Cryptogrpahy(SEC) or Standards for Efficient Cryptography Group ([SECG][secg]).  
 In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about epllitic curves.
@@ -15,8 +17,8 @@ In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about e
 
 ----
 ****
-## Intuition About Elliptic Curve
-### I. Double a point(Add a point to itself):
+## I. Intuition About Elliptic Curve: Basics
+### 1. Double a point(Add a point to itself):
 {% katexmm %}
    Let's consider a elliptic curve$(EC)$: $$y^2 = x^3 + ax + b$$
    , `mod(p)` will be discussed latter.
@@ -28,7 +30,7 @@ In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about e
    ![double](/Blog/assets/img/muti.png)
 {% endkatexmm %}
 
-#### 1. The slope of the tangent line:
+#### 1.1 The slope of the tangent line:
 {% katexmm %}
 $$\because  y^2 = x^3 + ax + b$$
 $$\therefore 2ydy = (3x^2 +a)dx$$
@@ -36,7 +38,7 @@ $$\therefore {\frac{dy}{dx}} = {\frac{(3x^2 +a)}{2y}}$$
 $$\therefore \lambda = {\frac{dy}{dx}} = {\frac{3x_{1}^2+a}{2y_{1}}}$$
 {% endkatexmm %}
 
-#### 2. Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
+#### 1.2 Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
 {% katexmm %}
 $$\because  {\frac{y_{c}-y_{1}}{x_{c}-x_{1}}} = \lambda$$
 $$\therefore y_{c}-y_{1} = \lambda(x_{c}-x_{1})$$
@@ -55,7 +57,7 @@ $$... - (x_{1}+x_{1}+x_{c})x^2 + ... = 0$$
 This two coefficient is identical, therefore $$\lambda^2=x_{1}+x_{1}+x_{c}$$ $$x_{c}=\lambda^2-x_{1}-x_{1}=\lambda^2-2x_{1}$$
 {% endkatexmm %}
 
-#### 3. Point {% katex %}  D(x_{3},y_{3}) {% endkatex %}:
+#### 1.3 Point {% katex %}  D(x_{3},y_{3}) {% endkatex %}:
 {% katexmm %}
 $$x_{3}=x_{c}=\lambda^2-x_{1}-x_{1}$$
 $$y_{3}=-y_{c}= -(\lambda(x_{c}-x_{1}) + y_{1})=\lambda(x_{1}-x_{3}) - y_{1}$$
@@ -63,7 +65,7 @@ where $$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}$$
 {% endkatexmm %}
 
 
-### II. Addition(Add two points together):
+### 2. Addition(Add two points together):
 {% katexmm %}
 There are two initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$ on $EC$, how to get $D = A + B$?
 
@@ -72,12 +74,12 @@ There are two initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$ on $EC$, how 
 Draw a line through $A$ and $B$, and cross $EC$ at $C(x_{c},y_{c})$. The vertical line crosses $C$, will cross $EC$ at $D(x_{3},y_{3})$, which is the result $A+B$ by definition.
 {% endkatexmm %}
 
-#### 1. The slope of the line is determined by two initial points :
+#### 2.1 The slope of the line is determined by two initial points :
 {% katexmm %}
 $$\lambda = {\frac{dy}{dx}} = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 {% endkatexmm %}
 
-#### 2. Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
+#### 2.2 Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
 {% katexmm %}
 $$\because  {\frac{y_{c}-y_{1}}{x_{c}-x_{1}}} = \lambda$$
 $$\therefore y_{c}-y_{1} = \lambda(x_{c}-x_{1})$$
@@ -96,7 +98,7 @@ $$... - (x_{1}+x_{2}+x_{c})x^2 + ... = 0$$
 This two coefficient is identical, therefore $$\lambda^2=x_{1}+x_{2}+x_{c}$$ $$x_{c}=\lambda^2-x_{1}-x_{2}$$
 {% endkatexmm %}
 
-#### 3. Point {% katex %}  D(x_{3},y_{3}) {% endkatex %}:
+#### 2.3 Point {% katex %}  D(x_{3},y_{3}) {% endkatex %}:
 {% katexmm %}
 $$x_{3}=x_{c}=\lambda^2-x_{1}-x_{2}$$
 $$y_{3}=-y_{c}= -(\lambda(x_{c}-x_{1}) + y_{1})= \lambda(x_{1}-x_{3}) - y_{1}$$
@@ -104,6 +106,7 @@ where $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 {% endkatexmm %}
 
 
+## II. Intuition About Elliptic Curve: `mod(p)`
 
 
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
