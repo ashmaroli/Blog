@@ -1,6 +1,9 @@
 ---
 layout: post
 ---
+
+
+
 {% katex display %}
   c = \pm\sqrt{a^2 + b^2}
   \mathcal O
@@ -8,7 +11,7 @@ layout: post
 {% endkatex %}
 
 {% katexmm %}
-  This is a mixed environment where you can have normal text and $c = \pm\sqrt{a^2 + b^2}$ fenced math.
+  This is a mixed environment where you can have normal text and $$c = \pm\sqrt{a^2 + b^2}$$ fenced math.
 {% endkatexmm %}
 
 Standards for Efficient Cryptography 1 (SEC 1) page 7.
