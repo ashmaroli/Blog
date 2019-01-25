@@ -1,6 +1,11 @@
 ---
 layout: post
 ---
+{% katex display %}
+  c = \pm\sqrt{a^2 + b^2}
+  \mathcal O
+  \nabla_\boldsymbol{x} J(\boldsymbol{x})
+{% endkatex %}
 
 Standards for Efficient Cryptography 1 (SEC 1) page 7.
 ![multiplication and addition](/Blog/assets/img/mutiandadd.png)

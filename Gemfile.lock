@@ -9,6 +9,7 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
     eventmachine (1.2.7)
+    execjs (2.7.0)
     ffi (1.10.0)
     forwardable-extended (2.6.0)
     http_parser.rb (0.6.0)
@@ -29,6 +30,9 @@ GEM
       safe_yaml (~> 1.0)
     jekyll-feed (0.11.0)
       jekyll (~> 3.3)
+    jekyll-katex (0.3.0)
+      execjs (~> 2.7)
+      jekyll (~> 3.8)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
     jekyll-seo-tag (2.5.0)
@@ -67,6 +71,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll (~> 3.8.5)
   jekyll-feed (~> 0.6)
+  jekyll-katex
   minima (~> 2.0)
   tzinfo-data
 
