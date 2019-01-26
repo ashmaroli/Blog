@@ -107,11 +107,32 @@ where $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 {% endkatexmm %}
 
 
-## II. Intuition About Elliptic Curve: 'mod(p)'
+## II. Intuition About Elliptic Curve: mod(p)
+### 1. mod: Basics
+{% katexmm %}
+Let's see some examples:
+$$ x \space mod \space p:$$
+$$ 0 \space mod \space 23 = 0 $$
+$$ 1 \space mod \space 23 = 1 $$
+$$ 2 \space mod \space 23 = 2 $$
+$$ ... $$
+$$ 22 \space mod \space 23 = 22 $$
+$$ 23 \space mod \space 23 = 0 $$
+$$ 24 \space mod \space 23 = 1 $$
+$$ 25 \space mod \space 23 = 2 $$
+
+
+
+{% endkatexmm %}
+
+### 2. mod: Multiplication
 
 
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
 ![27 points and lines](/Blog/assets/img/27.png)![27 points gif](/Blog/assets/img/EC.gif)
+
+## Reference:  
+[Explicit Addition Formulae][ecaddtion]
 
 
 
@@ -119,3 +140,6 @@ where $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 [secg]: http://www.secg.org/
 [v1-2]: http://www.secg.org/SEC2-Ver-1.0.pdf
 [v1-1]: http://www.secg.org/SEC1-Ver-1.0.pdf
+[ecaddtion]:https://crypto.stanford.edu/pbc/notes/elliptic/explicit.html
+[N1]:https://crypto.stackexchange.com/questions/53597/how-did-someone-discover-n-order-of-g-for-secp256k1
+[N2]:https://en.wikipedia.org/wiki/Schoof%27s_algorithm#The_algorithm
