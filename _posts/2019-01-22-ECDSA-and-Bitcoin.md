@@ -107,7 +107,7 @@ where $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 {% endkatexmm %}
 
 
-## II. Intuition About Elliptic Curve: `mod(p)`
+## II. Intuition About Elliptic Curve: 'mod(p)'
 
 
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
