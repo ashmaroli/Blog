@@ -2,6 +2,7 @@
 layout: post
 title:  "ECDSA and Bitcoin"
 categories: blog update
+author: Jun Wang
 ---
 
 [Collision-Resistant Elliptic Curve Hash Functions][patent] were invented by Brown et al, usually mentioned or refered as Standards for Efficient Cryptogrpahy(SEC) or Standards for Efficient Cryptography Group ([SECG][secg]).  
@@ -127,7 +128,7 @@ we get the result of addition $D(x_{3},y_{3})=A+B$.
 
 
 ## II. Intuition About Elliptic Curve: mod(P)
-`Why mod(P)? With mod(P), the result D will be capped by P. In order to use mod, we need to go over some details.`
+__Why mod(P)? With mod(P), the result D will be capped by P.__ {% katexmm %} Of course, we still need to caculate $\lambda$, $x_{3}$ and $y_{3}$. But in order to use mod, we need to go over some details first.{% endkatexmm %}
 ### 1. mod: Basics
 {% katexmm %}
 Let's see some examples:
@@ -159,7 +160,7 @@ Usually, if $ A*B = 1$, $B$ is the inverse of $A$. The definition of modular inv
 If both $A\space and\space B$ are integers and $A*B\space mod \space P=1$, $B$ is the modular inverse of $A$.
 
 #### 3.1 One Improtant Property
-Note: If $A$ does not coprime to $P$, i.e. if $A$ shares at least one prime factor with $P$, $A$ has no modular inverse (mod $P$). This is why secp256k1 chooses a prime $P$, which we will discuss later.
+__Note: If $A$ does not coprime to $P$, i.e. if $A$ shares at least one prime factor with $P$, $A$ has no modular inverse (mod $P$).__ This is why secp256k1 chooses a prime $P$, which we will discuss later.
 
 An example:
 $$A=6, P=8, they\space share\space one\space prime\space factor\space 2.$$
@@ -181,37 +182,47 @@ If $A$ coprimes to $P$, how to find it's modular inverse $B$? We can use Extend 
 
 * An example ($A=7,P=23$):
 
-|          |    |           |  k |  R  |     *23     |       *7       |    t   |
+|          |    |           |  k |  R  |  $\times$23     |    $\times$7       |    t   |
 |:--------:|:--:|:---------:|:--:|:--:|:-----------:|:--------------:|:------:|
-|          |    | 23=1*23+0 |    | 23 |      <span style="color:green">1</span>      |        <span style="color:green">0</span>       |    0   |
-|          |    | 7=0+1*7   |    |  7 |      <span style="color:orange">0</span>      |        <span style="color:orange">1</span>       |    1   |
-| 23=3*7+2 | => | 2=23-<span style="color:magenta">3</span>*7  | <span style="color:magenta">3</span> |  2 |      <span style="color:green">1</span>-<span style="color:magenta">3</span>*<span style="color:orange">0</span>=<span style="color:blue">1</span>      |       <span style="color:green">0</span>-<span style="color:magenta">3</span>*<span style="color:orange">1</span>=<span style="color:blue">-3</span>       |    2   |
-| 7=3*2+1  | => | 1=7-<span style="color:red">3</span>*2   | <span style="color:red">3</span> |  1 | <span style="color:orange">0</span>-<span style="color:red">3</span>*<span style="color:blue">1</span>=-3 | <span style="color:  orange">1</span>-<span style="color:red">3</span>*(<span style="color:blue">-3</span>)=10 |    3   |
+|          |    | 23=1*23+0 |    | 23 |$\color{green} 1$ |$\color{green} 0$ |    0   |
+|          |    | 7=0+1*7   |    |  7 |$\color{orange} 0$|$\color{orange} 1$|    1   |
+| 23=3*7+2 | => | 2=23- $\color{magenta} 3$*7  |  $\color{magenta} 3$ |  2 | $\color{green} 1$- $\color{magenta} 3$* $\color{orange} 0$= $\color{blue} 1$ |  $\color{green} 0$- $\color{magenta} 3$* $\color{orange} 1$= $\color{blue} -3$ |    2   |
+| 7=3*2+__1__  | => | __1__=7- $\color{red} 3$*2   |  $\color{red} 3$ |  __1__ |  $\color{orange} 0$- $\color{red} 3$* $\color{blue} 1$=-3 |  $\color{orange} 1$- $\color{red} 3$*( $\color{blue} -3$)=10 |    3   |
 
 From the last line of the above table, we have $$1=(-3) * 23 + 10 * 7$$
 $$\therefore 10 * 7 = 3 * 23 +1$$
 $$\therefore 10 * 7\space mod\space 23 = 1$$
 $$\therefore B=10$$
+
+* General cases(it's a loop until __R=1__ therefore $B=a_{t}$):
+
+|           |  k |  R  |  $\times$P     |    $\times$A      |    t   |
+|:---------:|:--:|:--:|:-----------:|:--------------:|:------:|
+| $R_{0}$=1*$P$+0 |    | $R_{0}=P$ |$\color{green}p_{0}=1$ |$\color{green}a_{0}=0$ |    0   |
+| $R_{1}$=0+1*$A$ |    | $R_{1}=A$ |$\color{orange}p_{1}=0$|$\color{orange}a_{1}=1$|    1   |
+| $R_{2}=R_{0}$- $\color{magenta}k_{2}$*$R_{1}$  |  $\color{magenta}k_{2}$ | $R_{2}$  | $\color{green} p_{0}$- $\color{magenta}k_{2}$* $\color{orange}p_{1}$= $\color{blue}p_{2}$ |  $\color{green}a_{0}$- $\color{magenta}k_{2}$* $\color{orange}a_{1}$= $\color{blue}a_{2}$ |    2   |
+|...|...|...|...|...|...|
+| __1__=$R_{t-2}$- $\color{red}k_{t}$*$R_{t-1}$   |  $\color{red}k_{t}$ |  __1__ |  $\color{orange}p_{t-2}$- $\color{red}k_{t}$* $\color{blue}p_{t-1}$=$p_{t}$ |  $\color{orange}a_{t-2}$- $\color{red}k_{t}$*( $\color{blue}a_{t-1}$)=$a_{t}$ |    t   |
+
 {% endkatexmm %}
 
-* General case and Python code:
-
-
+* Python code:
 {% highlight javascript %}
 def modular_inverse(A,P):
-    P0, A0 = 1, 0
-    P1, A1 = 0, 1
+    p0, a0 = 1, 0
+    p1, a1 = 0, 1
     R0, R1 = P, A%P
     while R1 > 1:
         k, R2 = divmod(R0, R1)
-        P2 = P0 - k*P1 ; A2 = A0 - k*A1
-        P0 = P1; A0 = A1; P1 = P2; A1 = A2
+        p2 = p0 - k*p1 ; a2 = a0 - k*a1
+        p0 = p1; a0 = a1; p1 = p2; a1 = a2
         R0 = R1; R1 = R2
-    return A2
+    return a2
 {% endhighlight %}
 
+
 Reference:
-[Modular inverses][modinverse], [Extend Euclidean Algorithm][EEA], [Python Code][py2.7]
+[Modular inverses][modinverse], [Extend Euclidean Algorithm][EEA], [Elliptic Curve Cryptography][ECC], [Python Code][py2.7]
 
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
 ![27 points and lines](/Blog/assets/img/27.png)![27 points gif](/Blog/assets/img/EC.gif)
@@ -228,6 +239,7 @@ Reference:
 [ecaddtion]:https://crypto.stanford.edu/pbc/notes/elliptic/explicit.html
 [modinverse]: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/modular-inverses
 [EEA]: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
+[ECC]: http://www.site.uottawa.ca/~chouinar/Handout_Elliptic_Curve_Crypto.pdf
 [py2.7]: https://github.com/wobine/blackboard101/blob/master/EllipticCurvesPart5-TheMagic-SigningAndVerifying.py
 
 [N1]:https://crypto.stackexchange.com/questions/53597/how-did-someone-discover-n-order-of-g-for-secp256k1
