@@ -17,8 +17,6 @@ In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about e
 `secp256k1`, which Bitcoin used, can be found in [Recommended Elliptic Curve Domain Parameters: page 15][v1-2].
 ![secp256k1](/Blog/assets/img/secp256k1.png)
 
-----
-****
 
 
 [patent]: https://patentimages.storage.googleapis.com/ed/69/90/4e2edac247a783/US8891756.pdf
