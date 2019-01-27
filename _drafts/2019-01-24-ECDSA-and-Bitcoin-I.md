@@ -80,7 +80,7 @@ $$\because  y^2 = x^3 + ax + b$$
 $$\therefore y_{c}^2 = (\lambda(x_{c}-x_{1}) + y_{1})^2 = x_{c}^3 + ax_{c} + b$$
 $$\therefore x_{c}^3 - (\lambda(x_{c}-x_{1}) + y_{1})^2 + ax_{c} + b = 0$$
 Let me put it another way: $$x^3 - (\lambda(x-x_{1}) + y_{1})^2 + ax + b = 0$$
-has three roots, one of them is $x_{c}$.
+This equation has three roots, one of them is $x_{c}$.
 What's the other two roots? Yes, they are: $x_{1},x_{2}$.
 Let's focus on the coefficient of $x^2$:
 $$\because x^3 - (\lambda(x-x_{1}) + y_{1})^2 + ax + b = 0$$

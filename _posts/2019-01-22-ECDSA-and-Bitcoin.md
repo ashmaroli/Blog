@@ -49,7 +49,7 @@ $$\because  y^2 = x^3 + ax + b$$
 $$\therefore y_{c}^2 = (\lambda(x_{c}-x_{1}) + y_{1})^2 = x_{c}^3 + ax_{c} + b$$
 $$\therefore x_{c}^3 - (\lambda(x_{c}-x_{1}) + y_{1})^2 + ax_{c} + b = 0$$
 Let me put it another way: $$x^3 - (\lambda(x-x_{1}) + y_{1})^2 + ax + b = 0$$
-has three roots, one of them is $x_{c}$.
+This equation has three roots, one of them is $x_{c}$.
 What's the other two roots? Yes, they are: $x_{1},x_{1}$(since tangent at $G(x_{1},y_{1})$).
 Let's focus on the coefficient of $x^2$:
 $$\because x^3 - (\lambda(x-x_{1}) + y_{1})^2 + ax + b = 0$$
@@ -72,7 +72,7 @@ From initial point $G(x_{1},y_{1})$:
 $$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}$$
 $$x_{3}=\lambda^2-x_{1}-x_{1}$$
 $$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}$$
-we get the result of double $D(x_{3},y_{3})=G+G$.
+$$D(x_{3},y_{3})=G+G$$
 {% endkatexmm %}
 
 ### 2. Addition(Add two points together):
@@ -123,7 +123,7 @@ From initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$:
 $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}$$
 $$x_{3}=\lambda^2-x_{1}-x_{2}$$
 $$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}$$
-we get the result of addition $D(x_{3},y_{3})=A+B$.
+$$D(x_{3},y_{3})=A+B$$
 {% endkatexmm %}
 
 
@@ -156,8 +156,8 @@ $$25*30\space mod \space 23 = (23+2)(23+7)\space mod \space 23=2*7\space mod \sp
 
 ### 3. mod: Inverses
 {% katexmm %}
-Usually, if $ A*B = 1$, $B$ is the inverse of $A$. The definition of modular inverses is similar.
-If both $A\space and\space B$ are integers and $A*B\space mod \space P=1$, $B$ is the modular inverse of $A$.
+Sometimes, we need to caculate ${\frac{1}{A}}\space mod\space P$, i.e. modular inverse. As we know, if $ A*B = 1$, $B$ is the inverse of $A$. The definition of modular inverses is similar.
+If both $A\space and\space B$ are integers and $A*B\space mod \space P=1$, $B$ is the modular inverse of $A$. Or state in an other way: ${\frac{1}{A}}\space mod\space P=B$.
 
 #### 3.1 One Improtant Property
 __Note: If $A$ does not coprime to $P$, i.e. if $A$ shares at least one prime factor with $P$, $A$ has no modular inverse (mod $P$).__ This is why secp256k1 chooses a prime $P$, which we will discuss later.
@@ -182,7 +182,7 @@ If $A$ coprimes to $P$, how to find it's modular inverse $B$? We can use Extend 
 
 * An example ($A=7,P=23$):
 
-|          |    |           |  k |  R  |  $\times$23     |    $\times$7       |    t   |
+|          |    |           |  n |  R  |  $\times$23     |    $\times$7       |    t   |
 |:--------:|:--:|:---------:|:--:|:--:|:-----------:|:--------------:|:------:|
 |          |    | 23=1*23+0 |    | 23 |$\color{green} 1$ |$\color{green} 0$ |    0   |
 |          |    | 7=0+1*7   |    |  7 |$\color{orange} 0$|$\color{orange} 1$|    1   |
@@ -196,13 +196,13 @@ $$\therefore B=10$$
 
 * General cases(it's a loop until __R=1__ therefore $B=a_{t}$):
 
-|           |  k |  R  |  $\times$P     |    $\times$A      |    t   |
+|           |  n |  R  |  $\times$P     |    $\times$A      |    t   |
 |:---------:|:--:|:--:|:-----------:|:--------------:|:------:|
 | $R_{0}$=1*$P$+0 |    | $R_{0}=P$ |$\color{green}p_{0}=1$ |$\color{green}a_{0}=0$ |    0   |
 | $R_{1}$=0+1*$A$ |    | $R_{1}=A$ |$\color{orange}p_{1}=0$|$\color{orange}a_{1}=1$|    1   |
-| $R_{2}=R_{0}$- $\color{magenta}k_{2}$*$R_{1}$  |  $\color{magenta}k_{2}$ | $R_{2}$  | $\color{green} p_{0}$- $\color{magenta}k_{2}$* $\color{orange}p_{1}$= $\color{blue}p_{2}$ |  $\color{green}a_{0}$- $\color{magenta}k_{2}$* $\color{orange}a_{1}$= $\color{blue}a_{2}$ |    2   |
+| $R_{2}=R_{0}$- $\color{magenta}n_{2}$*$R_{1}$  |  $\color{magenta}n_{2}$ | $R_{2}$  | $\color{green} p_{0}$- $\color{magenta}n_{2}$* $\color{orange}p_{1}$= $\color{blue}p_{2}$ |  $\color{green}a_{0}$- $\color{magenta}n_{2}$* $\color{orange}a_{1}$= $\color{blue}a_{2}$ |    2   |
 |...|...|...|...|...|...|
-| __1__=$R_{t-2}$- $\color{red}k_{t}$*$R_{t-1}$   |  $\color{red}k_{t}$ |  __1__ |  $\color{orange}p_{t-2}$- $\color{red}k_{t}$* $\color{blue}p_{t-1}$=$p_{t}$ |  $\color{orange}a_{t-2}$- $\color{red}k_{t}$*( $\color{blue}a_{t-1}$)=$a_{t}$ |    t   |
+| __1__=$R_{t-2}$- $\color{red}n_{t}$*$R_{t-1}$   |  $\color{red}n_{t}$ |  __1__ |  $\color{orange}p_{t-2}$- $\color{red}n_{t}$* $\color{blue}p_{t-1}$=$p_{t}$ |  $\color{orange}a_{t-2}$- $\color{red}n_{t}$*( $\color{blue}a_{t-1}$)=$a_{t}$ |    t   |
 
 {% endkatexmm %}
 
@@ -213,22 +213,112 @@ def modular_inverse(A,P):
     p1, a1 = 0, 1
     R0, R1 = P, A%P
     while R1 > 1:
-        k, R2 = divmod(R0, R1)
-        p2 = p0 - k*p1 ; a2 = a0 - k*a1
+        n, R2 = divmod(R0, R1)
+        p2 = p0 - n*p1 ; a2 = a0 - n*a1
         p0 = p1; a0 = a1; p1 = p2; a1 = a2
         R0 = R1; R1 = R2
-    return a2
+    return a1 % P
 {% endhighlight %}
-
 
 Reference:
 [Modular inverses][modinverse], [Extend Euclidean Algorithm][EEA], [Elliptic Curve Cryptography][ECC], [Python Code][py2.7]
 
+### 4. mod: Elliptic Curve
+Recall: {% katexmm %} We need to caculate $\lambda$, $x_{3}$ and $y_{3}$. This time let's put $mod P$ at the end of $x_{3}$ and $y_{3}${% endkatexmm %}  
+#### 4.1 Double a point(Add a point to itself):
+{% katexmm %}
+From initial point $G(x_{1},y_{1})$:
+$$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}$$
+$$x_{3}=\lambda^2-x_{1}-x_{1}\color{blue}\space mod\space P$$
+$$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}\color{blue}\space mod\space P$$
+$$D(x_{3},y_{3})=G+G$$
+Based on the properties of mod and modular inverse,
+$$x_{3}=\lambda^2{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
+$$x_{3}=\lambda{\color{blue}\space mod\space P} * \lambda{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
+$$x_{3}={\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P} * {\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
+In practice, we let $$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}\color{blue}\space mod\space P$$
+Therefore, we can caculate $x_{3}$ and $y_{3}$ directly:
+$$x_{3}=\lambda^2-x_{1}-x_{1}\color{blue}\space mod\space P$$
+$$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}\color{blue}\space mod\space P$$
+One more thing,
+$$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P} = (3x_{1}^2+a){\color{blue}\space mod\space P} * {\frac{1}{2y_{1}}}\color{blue}\space mod\space P$$
+And $${\frac{1}{2y_{1}}}{\color{blue}\space mod\space P}= inverse\space module\space of\space 2y_{1}$$
+{% endkatexmm %}
+
+* Python code:
+{% highlight javascript %}
+a = 1; b = 1
+P = 23
+x1 = 3; y1 = 10
+G = (x1,y1)
+
+def ECdouble(G):
+    lambda_double = ((3*G[0]** 2 + a) * modular_inverse(2*G[1],P)) % P
+    x3 = (lambda_double * lambda_double - G[0] - G[0]) % P
+    y3 = (lambda_double * (G[0]-x3)-G[1]) % P
+    return (x3,y3)
+
+{% endhighlight %}
+
+#### 4.2 Addition:
+{% katexmm %}
+Similarly, from initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$:
+$$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}\color{blue}\space mod\space P$$
+$$x_{3}=\lambda^2-x_{1}-x_{2}\color{blue} \space mod\space P$$
+$$y_{3}=\lambda(x_{1}-x_{3}) - y_{1} \color{blue} \space mod\space P$$
+$$D(x_{3},y_{3})=A+B$$
+Again, $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}{\color{blue}\space mod\space P} = (y_{2}-y_{1}){\color{blue}\space mod\space P} * {\frac{1}{x_{2}-x_{1}}}\color{blue}\space mod\space P$$
+And
+$${\frac{1}{x_{2}-x_{1}}}{\color{blue}\space mod\space P}= inverse\space module\space of\space x_{2}-x_{1}$$.
+{% endkatexmm %}
+
+* Python code:
+{% highlight javascript %}
+...
+A = (x1,y1); B = (x2,y2)
+
+def ECaddition(A,B):
+    lambda_addition = ((B[1]-A[1]) * modular_inverse(B[0]-A[0], P)) % P
+    x3 = (lambda_addition * lambda_addition - A[0] - B[0]) % P
+    y3 = (lambda_addition * (A[0] - x3) - A[1]) % P
+    return (x3,y3)
+{% endhighlight %}
+
+#### 4.3 Multiplication:
+{% katexmm %}
+Multiplication is a little bit tricky. From a initial point $G(x_{1},y_{1})$:
+$$2*G = G+G$$
+$$3*G = 2G+G$$
+$$4*G = 2G+2G$$
+$$...$$
+$$2^{m_{0}+m_{1}+...+m_{n}} * G = 2^{m_{0}}G+2^{m_{1}}G+...+2^{m_{n}}G$$
+$$(2^{m_{0}+m_{1}+...+m_{n}}+1) * G = 2^{m_{0}}G+2^{m_{1}}G+...+2^{m_{n}}G+G$$
+$$...$$
+{% endkatexmm %}
+
+* Python code:
+{% highlight javascript %}
+def ECMultiplication(G,n):
+    n_binary = str(bin(n))[2:]
+    D = G
+    for i in range (1, len(n_binary)):
+        D = ECdouble(D)
+        if n_binary[i] == "1":
+            D = ECaddition(D, G)
+    return (D)
+{% endhighlight %}
+
+* An example: {% katexmm %}$a=1,b=1,P=23,x_{1}=3,y_{1}=10${% endkatexmm %}
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
+
+
+
+
+
 ![27 points and lines](/Blog/assets/img/27.png)![27 points gif](/Blog/assets/img/EC.gif)
 
-## Reference:  
-
+Reference:  
+[Elliptic Curve Cryptography][ECC], [Python Code][py2.7]
 
 
 
