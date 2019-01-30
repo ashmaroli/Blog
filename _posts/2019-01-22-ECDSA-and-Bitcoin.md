@@ -133,6 +133,7 @@ __Why mod(P)? With mod(P), the result D will be capped by P.__ {% katexmm %} Of 
 {% katexmm %}
 Let's see some examples:
 $$ x \space mod \space P:$$
+$$ -1 \space mod \space 23 = 22 $$
 $$ 0 \space mod \space 23 = 0 $$
 $$ 1 \space mod \space 23 = 1 $$
 $$ 2 \space mod \space 23 = 2 $$
@@ -146,15 +147,17 @@ $$ ... $$
 
 ### 2. mod: Properties
 {% katexmm %}
-$$ x+y \space mod \space P = x \space mod \space P + y\space mod \space P$$
-$$ xy \space mod \space P = (x \space mod \space P) (y\space mod \space P)$$
+$$ x+y \space mod \space P = (x \space mod \space P + y\space mod \space P)\space mod \space P$$
+$$ xy \space mod \space P = ((x \space mod \space P) (y\space mod \space P))\space mod \space P$$
 Why? Let's see an example:$$x=25,y=30,P=23$$
-$$25+30\space mod \space 23 = (23+2)+(23+7)\space mod \space 23=2+7\space mod \space 23$$
+$$25+30\space mod \space 23 = (23+2) +(23+7)\space mod \space 23=(\bcancel{23*2}+2+7)\space mod \space 23=2+7\space mod \space 23$$
 Similarly,
-$$25*30\space mod \space 23 = (23+2)(23+7)\space mod \space 23=2*7\space mod \space 23$$
+$$25*30\space mod \space 23 = (23+2) * (23+7)\space mod \space 23=(\bcancel{23*23}+\bcancel{23*2}+\bcancel{23*7}+2*7)\space mod \space 23$$
+$$=2*7\space mod \space 23$$
 {% endkatexmm %}
+`Intuition: When mod, only remainders matter.`
 
-### 3. mod: Inverses
+### 3. mod: Inverse
 {% katexmm %}
 Sometimes, we need to caculate ${\frac{1}{A}}\space mod\space P$, i.e. modular inverse. As we know, if $ A*B = 1$, $B$ is the inverse of $A$. The definition of modular inverses is similar.
 If both $A\space and\space B$ are integers and $A*B\space mod \space P=1$, $B$ is the modular inverse of $A$. Or state in an other way: ${\frac{1}{A}}\space mod\space P=B$.
@@ -163,7 +166,7 @@ If both $A\space and\space B$ are integers and $A*B\space mod \space P=1$, $B$ i
 __Note: If $A$ does not coprime to $P$, i.e. if $A$ shares at least one prime factor with $P$, $A$ has no modular inverse (mod $P$).__ This is why secp256k1 chooses a prime $P$, which we will discuss later.
 
 An example:
-$$A=6, P=8, they\space share\space one\space prime\space factor\space 2.$$
+$$A=6, P=8(they\space share\space one\space prime\space factor\space 2)$$
 $$6*0 \space mod \space 8=0=0*2$$
 $$6*1 \space mod \space 8=2=1*2$$
 $$6*2 \space mod \space 8=4=2*2$$
@@ -171,7 +174,7 @@ $$6*3 \space mod \space 8=2=1*2$$
 $$6*4 \space mod \space 8=0=0*2$$
 $$...$$
 A more general case:
-$$A=n*k, P=m*k, they\space share\space one\space prime\space factor\space k.$$
+$$A=n*k, P=m*k(they\space share\space one\space prime\space factor\space k)$$
 $$\because A*B=nB*k$$
 $$\therefore A*B\space mod \space P=nB*k \space mod \space (m*k)$$
 The reault must be something like $t*k$, where $t$ is an integer.
@@ -233,16 +236,13 @@ $$x_{3}=\lambda^2-x_{1}-x_{1}\color{blue}\space mod\space P$$
 $$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}\color{blue}\space mod\space P$$
 $$D(x_{3},y_{3})=G+G$$
 Based on the properties of mod and modular inverse,
-$$x_{3}=\lambda^2{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
-$$x_{3}=\lambda{\color{blue}\space mod\space P} * \lambda{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
-$$x_{3}={\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P} * {\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}\color{blue}\space mod\space P$$
-In practice, we let $$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}\color{blue}\space mod\space P$$
-Therefore, we can caculate $x_{3}$ and $y_{3}$ directly:
-$$x_{3}=\lambda^2-x_{1}-x_{1}\color{blue}\space mod\space P$$
-$$y_{3}=\lambda(x_{1}-x_{3}) - y_{1}\color{blue}\space mod\space P$$
-One more thing,
-$$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P} = (3x_{1}^2+a){\color{blue}\space mod\space P} * {\frac{1}{2y_{1}}}\color{blue}\space mod\space P$$
-And $${\frac{1}{2y_{1}}}{\color{blue}\space mod\space P}= inverse\space module\space of\space 2y_{1}$$
+$$x_{3}=(\lambda^2{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P})\color{blue}\space mod\space P$$
+$$x_{3}=(\lambda{\color{blue}\space mod\space P} * \lambda{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P}-x_{1}{\color{blue}\space mod\space P})\color{blue}\space mod\space P$$
+Or, $$x_{3}=(\lambda{\color{blue}\space mod\space P} * \lambda{\color{blue}\space mod\space P}-x_{1}-x_{1})\color{blue}\space mod\space P$$
+Where,
+$$\lambda{\color{blue}\space mod\space P} = {\frac{3x_{1}^2+a}{2y_{1}}}{\color{blue}\space mod\space P} = ((3x_{1}^2+a){\color{blue}\space mod\space P} * {\frac{1}{2y_{1}}}{\color{blue}\space mod\space P})\color{blue}\space mod\space P$$
+$$= ((3x_{1}^2+a){\color{blue}\space mod\space P} * 2y_{1}{\color{blue}\space inverse\space mod\space P})\color{blue}\space mod\space P$$
+And, $$y_{3}=(\lambda{\color{blue}\space mod\space P} * (x_{1}-x_{3}) - y_{1})\color{blue}\space mod\space P$$
 {% endkatexmm %}
 
 * Python code:
@@ -253,23 +253,22 @@ x1 = 3; y1 = 10
 G = (x1,y1)
 
 def ECdouble(G):
-    lambda_double = ((3*G[0]** 2 + a) * modular_inverse(2*G[1],P)) % P
-    x3 = (lambda_double * lambda_double - G[0] - G[0]) % P
-    y3 = (lambda_double * (G[0]-x3)-G[1]) % P
+    lambda_mod = ((3*G[0]** 2 + a) * modular_inverse(2*G[1],P)) % P
+    x3 = (lambda_mod * lambda_mod - G[0] - G[0]) % P
+    y3 = (lambda_mod * (G[0]-x3)-G[1]) % P
     return (x3,y3)
 
 {% endhighlight %}
 
 #### 4.2 Addition:
 {% katexmm %}
-Similarly, from initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$:
-$$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}\color{blue}\space mod\space P$$
-$$x_{3}=\lambda^2-x_{1}-x_{2}\color{blue} \space mod\space P$$
-$$y_{3}=\lambda(x_{1}-x_{3}) - y_{1} \color{blue} \space mod\space P$$
-$$D(x_{3},y_{3})=A+B$$
-Again, $$\lambda = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}{\color{blue}\space mod\space P} = (y_{2}-y_{1}){\color{blue}\space mod\space P} * {\frac{1}{x_{2}-x_{1}}}\color{blue}\space mod\space P$$
+From initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$:
+$$\lambda{\color{blue}\space mod\space P} = {\frac{y_{2}-y_{1}}{x_{2}-x_{1}}}{\color{blue}\space mod\space P} = ((y_{2}-y_{1}){\color{blue}\space mod\space P} * {\frac{1}{x_{2}-x_{1}}}{\color{blue}\space mod\space P}){\color{blue}\space mod\space P}$$
+$$= ((y_{2}-y_{1}){\color{blue}\space mod\space P} * (x_{2}-x_{1}) {\color{blue}\space inverse\space mod\space P}){\color{blue}\space mod\space P}$$
 And
-$${\frac{1}{x_{2}-x_{1}}}{\color{blue}\space mod\space P}= inverse\space module\space of\space x_{2}-x_{1}$$.
+$$x_{3}=(\lambda{\color{blue}\space mod\space P} * \lambda{\color{blue}\space mod\space P}-x_{1}-x_{2})\color{blue} \space mod\space P$$
+$$y_{3}=(\lambda{\color{blue}\space mod\space P} * (x_{1}-x_{3}) - y_{1}) \color{blue} \space mod\space P$$
+$$D(x_{3},y_{3})=A+B$$
 {% endkatexmm %}
 
 * Python code:
@@ -277,23 +276,35 @@ $${\frac{1}{x_{2}-x_{1}}}{\color{blue}\space mod\space P}= inverse\space module\
 ...
 A = (x1,y1); B = (x2,y2)
 
-def ECaddition(A,B):
-    lambda_addition = ((B[1]-A[1]) * modular_inverse(B[0]-A[0], P)) % P
-    x3 = (lambda_addition * lambda_addition - A[0] - B[0]) % P
-    y3 = (lambda_addition * (A[0] - x3) - A[1]) % P
+def ECadd(A,B):
+    lambda_mod = ((B[1]-A[1]) * modular_inverse(B[0]-A[0], P)) % P
+    x3 = (lambda_mod * lambda_mod - A[0] - B[0]) % P
+    y3 = (lambda_mod * (A[0] - x3) - A[1]) % P
     return (x3,y3)
 {% endhighlight %}
 
 #### 4.3 Multiplication:
 {% katexmm %}
-Multiplication is a little bit tricky. From a initial point $G(x_{1},y_{1})$:
+Multiplication is defined as add a point to itself how many times. From a initial point $G(x_{1},y_{1})$:
 $$2*G = G+G$$
-$$3*G = 2G+G$$
-$$4*G = 2G+2G$$
+$$3*G = G+G+G$$
+$$...$$
+$$N*G = \underbrace{G+G+...+G}_{\text{N}}$$
+In practice, N is usually very large, say
+$$\text{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFB673C211660358AAD66B17B368CD0364141}$$
+In decimal, it's
+$$115792089237316195423570985008687907452837564279074904382605163141518161494337$$
+
+If we use the above method to calculate N*G, it will take a looooong time to get the result. How long specificly? Let's estimate it. At the end of 2018, multi-core GHz processors are capable of processing over [100 billion][ComputerSpeed] instructions per second. There are about [4.2 billion][ComputerNumber] active internet users around the world. Our unverse is around [13.8 billion years old][UnverseAge]. Even if all active internet users work together since the birth of the universe, until now we've only finished $$\frac{1}{2.6606833790440597\times 10^{47}}$$
+Fortunatly, we have another alternative method:
+$$2G = G+G$$
+$$4G = 2G+2G$$
+$$2^{3}G = 2^{2}G+2^{2}G$$
 $$...$$
 $$2^{m_{0}+m_{1}+...+m_{n}} * G = 2^{m_{0}}G+2^{m_{1}}G+...+2^{m_{n}}G$$
-$$(2^{m_{0}+m_{1}+...+m_{n}}+1) * G = 2^{m_{0}}G+2^{m_{1}}G+...+2^{m_{n}}G+G$$
 $$...$$
+In binary, $N$ is $$\underbrace{1111111111...0101000001}_{\text{256}}$$
+So, $$N=2^{256}+2^{255}+...+2^{9}+2^{7}+1$$
 {% endkatexmm %}
 
 * Python code:
@@ -304,7 +315,7 @@ def ECMultiplication(G,n):
     for i in range (1, len(n_binary)):
         D = ECdouble(D)
         if n_binary[i] == "1":
-            D = ECaddition(D, G)
+            D = ECadd(D, G)
     return (D)
 {% endhighlight %}
 
@@ -331,6 +342,9 @@ Reference:
 [EEA]: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 [ECC]: http://www.site.uottawa.ca/~chouinar/Handout_Elliptic_Curve_Crypto.pdf
 [py2.7]: https://github.com/wobine/blackboard101/blob/master/EllipticCurvesPart5-TheMagic-SigningAndVerifying.py
+[ComputerSpeed]: https://www.computerhope.com/issues/ch001380.htm
+[UnverseAge]: https://www.space.com/24054-how-old-is-the-universe.html
+[ComputerNumber]: https://www.statista.com/statistics/617136/digital-population-worldwide/
 
 [N1]:https://crypto.stackexchange.com/questions/53597/how-did-someone-discover-n-order-of-g-for-secp256k1
 [N2]:https://en.wikipedia.org/wiki/Schoof%27s_algorithm#The_algorithm
