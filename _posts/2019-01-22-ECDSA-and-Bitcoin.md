@@ -1,6 +1,5 @@
 ---
 layout: post
-comments: true
 title:  "ECDSA and Bitcoin"
 categories: blog update
 author: Jun Wang
@@ -326,8 +325,8 @@ def ECMultiplication(G,n):
 * An example: {% katexmm %}$a=1,b=1,P=23,x_{1}=3,y_{1}=10${% endkatexmm %}
 ![elliptic curve and 27 points](/Blog/assets/img/0.png)
 
-
-
+{{site.url}}{{page.url}}
+{{ page.url | absolute_url }}
 
 
 ![27 points and lines](/Blog/assets/img/27.png)![27 points gif](/Blog/assets/img/EC.gif)
@@ -335,29 +334,7 @@ def ECMultiplication(G,n):
 Reference:  
 [Elliptic Curve Cryptography][ECC], [Python Code][py2.7]
 
-{% if page.comments %}
-<div id="disqus_thread"></div>
-<script>
 
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://blog-of-wj.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-{% endif %}
 
 [patent]: https://patentimages.storage.googleapis.com/ed/69/90/4e2edac247a783/US8891756.pdf
 [secg]: http://www.secg.org/

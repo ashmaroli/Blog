@@ -10,9 +10,14 @@ layout: default
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {{ page.date | date: date_format }}
       </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author | escape }}</span></span>
-      {%- endif -%}</p>
+      <!-- {%- if page.author -%} -->
+      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author | escape }}
+      <!-- {%- endif -%} -->
+      </span> • </span>
+      <a class="u-url" href="{{ page.url | relative_url }}#disqus_thread" >
+        <span class="disqus-comment-count" data-disqus-identifier="{{ page.url | absolute_url }}"></span>
+      </a>
+    </p>
 
       <link rel="stylesheet" href="/Blog/assets/katex/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
       <!-- The loading of KaTeX is deferred to speed up page rendering -->
@@ -20,17 +25,20 @@ layout: default
       <!-- To automatically render math in text elements, include the auto-render extension: -->
       <script defer src="/Blog/assets/katex/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
+
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
 
+  <script id="dsq-count-scr" src="//blog-of-wj.disqus.com/count.js" async></script>
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+
+
 </article>
 
 <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> -->
