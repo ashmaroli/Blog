@@ -10,16 +10,16 @@ layout: default
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {{ page.date | date: date_format }}
       </time>
-      <!-- {%- if page.author -%} -->
-      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author | escape }}
-      <!-- {%- endif -%} -->
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author | escape }}
+      {%- endif -%}
       </span> • </span>
       <a class="u-url" href="{{ page.url | relative_url }}#disqus_thread" >
         <span class="disqus-comment-count" data-disqus-identifier="{{ page.url | absolute_url }}"></span>
       </a>
     </p>
 
-      <link rel="stylesheet" href="/Blog/assets/katex/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
       <!-- The loading of KaTeX is deferred to speed up page rendering -->
       <script defer src="/Blog/assets/katex/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
       <!-- To automatically render math in text elements, include the auto-render extension: -->
