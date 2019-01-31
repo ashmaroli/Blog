@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title:  "ECDSA and Bitcoin"
 categories: blog update
 author: Jun Wang
@@ -285,7 +286,7 @@ def ECadd(A,B):
 
 #### 4.3 Multiplication:
 {% katexmm %}
-Multiplication is defined as add a point to itself how many times. From a initial point $G(x_{1},y_{1})$:
+Multiplication, or scalar multiplication, is defined as add a point to itself many times. From a initial point $G(x_{1},y_{1})$:
 $$2*G = G+G$$
 $$3*G = G+G+G$$
 $$...$$
@@ -305,9 +306,12 @@ $$2^{m_{0}+m_{1}+...+m_{n}} * G = 2^{m_{0}}G+2^{m_{1}}G+...+2^{m_{n}}G$$
 $$...$$
 In binary, $N$ is $$\underbrace{1111111111...0101000001}_{\text{256}}$$
 So, $$N=2^{256}+2^{255}+...+2^{9}+2^{7}+1$$
-{% endkatexmm %}
 
-* Python code:
+Actually, if we are going to use this method, we still need to prove $+$ is associative, since $+$ is not ordinary plus it's one dot on eclliptic curve plus another dot. How to prove the associativity? Silverman and Tate offered us a geometric proof in their textbook [Rational Points on Elliptic Curves][prove associative]. The proof is very elegant, so I quoted it here.
+{% endkatexmm %}
+![prove association1](/Blog/assets/img/prove_association.png)
+![prove association2](/Blog/assets/img/prove_association1.png)
+* Python code for the binary method:
 {% highlight javascript %}
 def ECMultiplication(G,n):
     n_binary = str(bin(n))[2:]
@@ -331,7 +335,29 @@ def ECMultiplication(G,n):
 Reference:  
 [Elliptic Curve Cryptography][ECC], [Python Code][py2.7]
 
+{% if page.comments %}
+<div id="disqus_thread"></div>
+<script>
 
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://blog-of-wj.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endif %}
 
 [patent]: https://patentimages.storage.googleapis.com/ed/69/90/4e2edac247a783/US8891756.pdf
 [secg]: http://www.secg.org/
@@ -345,6 +371,6 @@ Reference:
 [ComputerSpeed]: https://www.computerhope.com/issues/ch001380.htm
 [UnverseAge]: https://www.space.com/24054-how-old-is-the-universe.html
 [ComputerNumber]: https://www.statista.com/statistics/617136/digital-population-worldwide/
-
+[prove associative]: https://books.google.fr/books?id=mAJei2-JcE4C&pg=PR8&lpg=PR8&dq=tate+silverman&source=bl&ots=MvvlWHLtd6&sig=-sCJ_g-uLJvwagXuuIamUFvd0KU&hl=fr&ei=WT2rTtauEuOI4gS2udDZDg&sa=X&oi=book_result&ct=result&resnum=4&ved=0CDsQ6AEwAw#v=onepage&q&f=false
 [N1]:https://crypto.stackexchange.com/questions/53597/how-did-someone-discover-n-order-of-g-for-secp256k1
 [N2]:https://en.wikipedia.org/wiki/Schoof%27s_algorithm#The_algorithm
