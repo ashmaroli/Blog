@@ -1,24 +1,17 @@
 ---
 layout: post
-title:  "ECDSA and Bitcoin"
+title:  "ECDSA and Bitcoin I: Intuition About Elliptic Curve"
 categories: blog update
 author: Jun Wang
 ---
 
-[Collision-Resistant Elliptic Curve Hash Functions][patent] were invented by Brown et al, usually mentioned or refered as Standards for Efficient Cryptogrpahy(SEC) or Standards for Efficient Cryptography Group ([SECG][secg]).  
-In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about epllitic curves.
+The set of parameters Bitcoin used is called `secp256k1`. It's one of the Standards for Efficient Cryptogrpahy(SEC) or Standards for Efficient Cryptography Group ([SECG][secg]). SEC or SECG is base on Elliptic Curve Digital Signature Algorithm(ECDSA). Before dive in, let's get a glimpse of what the algorithm looks like in Brown et al's orignal publication. [Elliptic Curve Cryptography: page 6-7][v1-1]
 ![ec1](/Blog/assets/img/ec1.png)
 ![ec2](/Blog/assets/img/ec2.png)
 
 
 ----
 ****  
-
-`secp256k1`, which Bitcoin used, can be found in [Recommended Elliptic Curve Domain Parameters: page 15][v1-2].
-![secp256k1](/Blog/assets/img/secp256k1.png)
-
-----
-****
 
 ## I. Intuition About Elliptic Curve: Basics
 ### 1. Double a point(Add a point to itself):
@@ -82,7 +75,8 @@ There are two initial points $A(x_{1},y_{1})$ and $B(x_{2},y_{2})$ on $EC$, how 
 
 ![addition](/Blog/assets/img/add.png)
 
-Draw a line through $A$ and $B$, and cross $EC$ at $C(x_{c},y_{c})$. The vertical line crosses $C$, will cross $EC$ at $D(x_{3},y_{3})$, which is the result $A+B$ by definition.
+Draw a line through $A$ and $B$, and cross $EC$ at $C(x_{c},y_{c})$. The vertical line crosses $C$, will cross $EC$ at $D(x_{3},y_{3})$, which is the result $A+B$ by definition. If $A$ and $B$ are on the same vertical line, i.e. $x_{1}=x_{2},y_{1}=-y_{2}$, then $A+B=O$, where $O$ is an infinity point with the following properties(by definition):$$G+O=O,O+O=O$$
+Intuitively, $O$ is a point faaaar away.
 {% endkatexmm %}
 
 #### 2.1 The slope of the line is determined by two initial points :
@@ -129,7 +123,9 @@ $$D(x_{3},y_{3})=A+B$$
 
 
 ## II. Intuition About Elliptic Curve: mod(P)
-__Why mod(P)? With mod(P), the result D will be capped by P.__ {% katexmm %} Of course, we still need to caculate $\lambda$, $x_{3}$ and $y_{3}$. But in order to use mod, we need to go over some details first.{% endkatexmm %}
+With `mod`, elliptic curve is no longer a curve, instead it is turned into a group of discrete points. With `mod(P)`, the result D will be capped by P, therefore we can control the magnitude of the output.  
+![elliptic curve and 27 points](/Blog/assets/img/0.png)  
+In Figure 1.2, we start from an initial point G(3,10), i.e. the point labeled 1, use EC multiplication and get the rest points in the group. EC multiplication, which is based on EC double and EC addition,  will be discussed latter. Let's go over some details of `mod` first.
 ### 1. mod: Basics
 {% katexmm %}
 Let's see some examples:
@@ -151,10 +147,11 @@ $$ ... $$
 $$ x+y \space mod \space P = (x \space mod \space P + y\space mod \space P)\space mod \space P$$
 $$ xy \space mod \space P = ((x \space mod \space P) (y\space mod \space P))\space mod \space P$$
 Why? Let's see an example:$$x=25,y=30,P=23$$
-$$25+30\space mod \space 23 = (23+2) +(23+7)\space mod \space 23=(\bcancel{23*2}+2+7)\space mod \space 23=2+7\space mod \space 23$$
+$$25+30\space mod \space 23 = (23+2) +(23+7)\space mod \space 23=(\bcancel{23*2}+2+7)\space mod \space 23$$
+$$=2+7\space mod \space 23=(25\space mod \space 23+30\space mod \space 23)\space mod \space 23$$
 Similarly,
 $$25*30\space mod \space 23 = (23+2) * (23+7)\space mod \space 23=(\bcancel{23*23}+\bcancel{23*2}+\bcancel{23*7}+2*7)\space mod \space 23$$
-$$=2*7\space mod \space 23$$
+$$=2*7\space mod \space 23=(25\space mod \space 23*30\space mod \space 23)\space mod \space 23$$
 {% endkatexmm %}
 `Intuition: When mod, only remainders matter.`
 
@@ -307,7 +304,8 @@ $$...$$
 In binary, $N$ is $$\underbrace{1111111111...0101000001}_{\text{256}}$$
 So, $$N=2^{256}+2^{255}+...+2^{9}+2^{7}+1$$
 
-Actually, if we are going to use this method, we still need to prove $+$ is associative, since $+$ is not ordinary plus it's one dot on eclliptic curve plus another dot. How to prove the associativity? Silverman and Tate offered us a geometric proof in their textbook [Rational Points on Elliptic Curves][prove associative]. The proof is very elegant, so I quoted it here.
+Actually, if we are going to use this method, we still need to prove $+$ is associative, since $+$ is not ordinary plus it's one dot on eclliptic curve plus another dot. It's a little bit tricky here, let me show you an example:  
+How to prove the associativity? Silverman and Tate offered us a geometric proof in their textbook [Rational Points on Elliptic Curves][prove associative]. The proof is very elegant, so I quoted it here.
 {% endkatexmm %}
 ![prove association1](/Blog/assets/img/prove_association.png)
 ![prove association2](/Blog/assets/img/prove_association1.png)
@@ -323,13 +321,9 @@ def ECMultiplication(G,n):
     return (D)
 {% endhighlight %}
 
-* An example: {% katexmm %}$a=1,b=1,P=23,x_{1}=3,y_{1}=10${% endkatexmm %}
-![elliptic curve and 27 points](/Blog/assets/img/0.png)
-
-{{site.url}}{{page.url}}
-{{ page.url | absolute_url }}
-
-
+* An example: {% katexmm %}$a=1,b=1,P=23,x_{1}=3,y_{1}=10$.  
+The initial point $G(3,10)$ is a generating point. $1*G,2*G,...,27*G$ are labeled in Figure 2.1. Notice, point 27 is right above point 1. Recall EC addition, what will happen if $A$ and $B$ are on the same vertical line? $A+B=O$. That is to say, infinit point $O$ is 28th point in this group genrated by $G$. Actually, this group only have 28 points and they can all be generated by multiply $G$ with $1,2,...,28$. More details will be discussed in the next section.
+{% endkatexmm %}
 ![27 points and lines](/Blog/assets/img/27.png)![27 points gif](/Blog/assets/img/EC.gif)
 
 Reference:  
@@ -339,16 +333,13 @@ Reference:
 
 [patent]: https://patentimages.storage.googleapis.com/ed/69/90/4e2edac247a783/US8891756.pdf
 [secg]: http://www.secg.org/
-[v1-2]: http://www.secg.org/SEC2-Ver-1.0.pdf
 [v1-1]: http://www.secg.org/SEC1-Ver-1.0.pdf
 [ecaddtion]:https://crypto.stanford.edu/pbc/notes/elliptic/explicit.html
 [modinverse]: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/modular-inverses
 [EEA]: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
-[ECC]: http://www.site.uottawa.ca/~chouinar/Handout_Elliptic_Curve_Crypto.pdf
-[py2.7]: https://github.com/wobine/blackboard101/blob/master/EllipticCurvesPart5-TheMagic-SigningAndVerifying.py
 [ComputerSpeed]: https://www.computerhope.com/issues/ch001380.htm
 [UnverseAge]: https://www.space.com/24054-how-old-is-the-universe.html
 [ComputerNumber]: https://www.statista.com/statistics/617136/digital-population-worldwide/
 [prove associative]: https://books.google.fr/books?id=mAJei2-JcE4C&pg=PR8&lpg=PR8&dq=tate+silverman&source=bl&ots=MvvlWHLtd6&sig=-sCJ_g-uLJvwagXuuIamUFvd0KU&hl=fr&ei=WT2rTtauEuOI4gS2udDZDg&sa=X&oi=book_result&ct=result&resnum=4&ved=0CDsQ6AEwAw#v=onepage&q&f=false
-[N1]:https://crypto.stackexchange.com/questions/53597/how-did-someone-discover-n-order-of-g-for-secp256k1
-[N2]:https://en.wikipedia.org/wiki/Schoof%27s_algorithm#The_algorithm
+[ECC]: http://www.site.uottawa.ca/~chouinar/Handout_Elliptic_Curve_Crypto.pdf
+[py2.7]: https://github.com/wobine/blackboard101/blob/master/EllipticCurvesPart5-TheMagic-SigningAndVerifying.py
