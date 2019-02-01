@@ -41,7 +41,7 @@ $$\therefore \lambda = {\frac{dy}{dx}} = {\frac{3x_{1}^2+a}{2y_{1}}}$$
 <!-- {% endkatexmm %} -->
 
 #### 1.2 Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
-{% katexmm %}
+<!-- {% katexmm %} -->
 $$\because  {\frac{y_{c}-y_{1}}{x_{c}-x_{1}}} = \lambda$$
 $$\therefore y_{c}-y_{1} = \lambda(x_{c}-x_{1})$$
 $$\therefore y_{c} = \lambda(x_{c}-x_{1}) + y_{1}$$
@@ -57,14 +57,14 @@ $$... - \lambda^2x^2 + ... = 0$$
 the coefficient of $x^2$ is $\lambda^2$. On the other hand, since three roots are:$x_{1},x_{1},x_{c}$, $$(x-x_{1})(x-x_{1})(x-x_{c})=0$$
 $$... - (x_{1}+x_{1}+x_{c})x^2 + ... = 0$$
 This two coefficient is identical, therefore $$\lambda^2=x_{1}+x_{1}+x_{c}$$ $$x_{c}=\lambda^2-x_{1}-x_{1}=\lambda^2-2x_{1}$$
-{% endkatexmm %}
+<!-- {% endkatexmm %} -->
 
 #### 1.3 Point {% katex %}  D(x_{3},y_{3}) {% endkatex %}:
-{% katexmm %}
+<!-- {% katexmm %} -->
 $$x_{3}=x_{c}=\lambda^2-x_{1}-x_{1}$$
 $$y_{3}=-y_{c}= -(\lambda(x_{c}-x_{1}) + y_{1})=\lambda(x_{1}-x_{3}) - y_{1}$$
 where $$\lambda = {\frac{3x_{1}^2+a}{2y_{1}}}$$
-{% endkatexmm %}
+<!-- {% endkatexmm %} -->
 
 `Summary:`  
 {% katexmm %}
