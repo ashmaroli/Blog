@@ -14,15 +14,20 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Blog of Wj
-email: your-email@example.com
+email: wjpapers@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  How the mind works, Machine Learning, Economics, Psychology, Buddism, Lao Tzu, Confucious, Bitcoin and Block Chain...
+# Write an awesome description for your new site here. You can edit this
+# line in _config.yml. It will appear in your document head meta (for
+# Google search results) and in your feed.xml site description.
 baseurl: "/Blog" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "https://jun-wang-2018.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+minima:
+  social_links:
+    twitter: jekyllrb
+    github: Jun-Wang-2018
+
+author: Jun Wang
 
 # Build settings
 markdown: kramdown
@@ -30,7 +35,7 @@ theme: minima
 #theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
-plugins:
+  - jekyll-seo-tag
   - jekyll-katex
 
 # Disqus Comments
@@ -39,6 +44,8 @@ disqus:
     # Disable comments for any post by adding `comments: false` to that post's YAML Front Matter.
     shortname: blog-of-wj
 
+google_analytics: UA-101741233-2
+#show_excerpts: true
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
