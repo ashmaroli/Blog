@@ -21,7 +21,7 @@ In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about e
 ****
 ## I. Intuition About Elliptic Curve: Basics
 ### 1. Double a point(Add a point to itself):
-{% katexmm %}
+<!-- {% katexmm %} -->
    Let's consider a elliptic curve$(EC)$: $$y^2 = x^3 + ax + b$$
    , `mod(P)` will be discussed latter.
 
@@ -30,15 +30,15 @@ In [Elliptic Curve Cryptography: page 6-7][v1-1], there are some details about e
    Draw a tangent line at $G$, and cross $EC$ at $C(x_{c},y_{c})$. The vertical line crosses $C$, will cross $EC$ at $D(x_{3},y_{3})$, which is the result $G+G$ by definition.
 
    ![double](/Blog/assets/img/muti.png){: .align-center}
-{% endkatexmm %}
+<!-- {% endkatexmm %} -->
 
 #### 1.1 The slope of the tangent line:
-{% katexmm %}
+<!-- {% katexmm %} -->
 $$\because  y^2 = x^3 + ax + b$$
 $$\therefore 2ydy = (3x^2 +a)dx$$
 $$\therefore {\frac{dy}{dx}} = {\frac{(3x^2 +a)}{2y}}$$
 $$\therefore \lambda = {\frac{dy}{dx}} = {\frac{3x_{1}^2+a}{2y_{1}}}$$
-{% endkatexmm %}
+<!-- {% endkatexmm %} -->
 
 #### 1.2 Point {% katex %}  C(x_{c},y_{c}) {% endkatex %}:
 {% katexmm %}
