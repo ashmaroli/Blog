@@ -24,7 +24,7 @@ baseurl: "/Blog" # the subpath of your site, e.g. /blog
 url: "https://jun-wang-2018.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 minima:
   social_links:
-    twitter: jekyllrb
+    #twitter: jekyllrb
     github: Jun-Wang-2018
 
 author: Jun Wang
