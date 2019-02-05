@@ -15,7 +15,7 @@ In previous post, we've got some general ideas about ECDSA, this post will focus
 ****
 <br>
 
-## I. The order of a base point
+## I. Base point and order
 ### 1. Base point and it's generated group
 {% katexmm %}
 The example in previous post is : $a=1,b=1,P=23,x_{1}=3,y_{1}=10$. Or state in another away
@@ -38,10 +38,10 @@ If we count the number of generated points of each group we will find another in
 | (4,0)(11,3)(11,20) | 4 | yes |
 | $\mathcal{O}$ | 1 | yes |
 
-The interesting property is: 28,14,7,4,1 are all divisors of 28. Is it a coincidence?
+The interesting property is: 28,14,7,4,1 are all divisors of 28. Is it a coincidence? No, it's not. Before prove this property, let's see where does this 28 come from.
 
-### 2. The order of a base point and the order of the curve
-In practice, the nubmer of points in the generated group of a base point is called the order of a base point. In the case of $y^2=x^3+x+1\space mod\space 23$, the order of a base point is a divisor of 28. This 28 is called the order of the curve. It is determined by the elliptic curve $y^2=x^3+x+1$ and $mod\space 23$. Why? Let's figure it out step by step.  
+### 2. The order of the curve
+This 28 is called the order of the curve. It is determined by the elliptic curve $y^2=x^3+x+1$ and $mod\space 23$. Why? Let's figure it out step by step.  
 First, $mod\space 23$ have 23 possible results:
 $$ -1 \space mod \space 23 = 22 $$
 $$ 0 \space mod \space 23 = 0 $$
@@ -96,16 +96,41 @@ There are 27 matched points:
 $$(0, 1), (0, 22), (1, 7), (1, 16), (3, 10), (3, 13), (4, 0), (5, 4), (5, 19),$$
 $$(6, 4), (6, 19), (7, 11), (7, 12), (9, 7), (9, 16), (11, 3), (11, 20), (12, 4), (12, 19),$$
 $$(13, 7), (13, 16), (17, 3), (17, 20), (18, 3), (18, 20), (19, 5), (19, 18)$$
-plus point $\mathcal{O}$, altogether 28 points.
-{% endkatexmm %}
+plus point $\mathcal{O}$, altogether 28 points. Use the same method, we can get the order of $y^2=x^3+x+1\space mod\space 37$ is 48 and the order of $y^2=x^3+x+1\space mod\space 487$ is 520, etc. Actually, there is a better method called [Schoof Algorithm][SchoofAlgorithm], with which we can get the order of the curve without go through every candidate points. In practice, such as Bitcoin, the order of the curve is very high. It's impossible to go through every point. With Schoof Algorithm we can still get the order. You can find the Python code of Schoof Algorithm [here][PythonSchoof]. Try some small parameters youself.  
 Reference:
 [Elliptic Curve Cryptography][ECC]
 
-## II. The order of the curve
-### 1. Schoof algorithm
+### 3. The order of a base point
+The nubmer of points in the generated group of a base point is called the order of a base point. In the case of $y^2=x^3+x+1\space mod\space 23$, the order of each base point is a divisor of 28. For example, the order of (0,1) is 28 and the order of (6,4) is 14. Based on [Lagrange's theorem][LagrangeTheorem], we can prove that the order of a base point is a divisor of the order of the curve. Sometimes the order of the curve is a prime. And a prime has only two divisors: 1, and the prime itself. Therefore, except the order of point $\mathcal{O}$ is 1, the order of all other base points is equal to the order of the curve.
+
+## II. Parameters in secp256k1
+### 1. The elliptic curve
+In secp256k1, $a=0,b=7$. So the elliptic curve is $$y^2=x^3+7\space mod\space P$$
+where $$P = 2^{256} - 2^{32} - 2^9 - 2^8 - 2^7 - 2^6 - 2^4 -1$$
+
+### 2. The order of the curve
+In secp256k1, the order of the curve, denoted by $n$, is
+$$\text{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141}$$
+in decimal, it's
+$$115792089237316195423570985008687907852837564279074904382605163141518161494337$$
+
+### 3. Base point
+In secp256k1, base point is $G(G_{x},G_{y})$, where
+$$G_{x}=79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798$$
+$$G_{y}=483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8$$
+
+### 4. The order of the base point
+We can verify the order of the curve $n$ is a prime, with the help of [this Python code][PrimalityTestPython]. Therefore, except the order of point $\mathcal{O}$ is 1, the order of all other base points, including G, is $n$.
+
+### 5. Cofactor
+By definition, cofactor $$h=\frac{the\space order\space of\space the\space curve}{the\space order\space of\space the\space base\space point}$$
+Obviousely, in secp256k1, $h=n/n=1$.
+{% endkatexmm %}  
+
 
 [v1-2]: http://www.secg.org/SEC2-Ver-1.0.pdf
 [ECC]: http://www.site.uottawa.ca/~chouinar/Handout_Elliptic_Curve_Crypto.pdf
-[PrimalityTestPython]: https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python
 [SchoofAlgorithm]:https://en.wikipedia.org/wiki/Schoof%27s_algorithm#The_algorithm
 [PythonSchoof]:https://github.com/pdinges/python-schoof
+[LagrangeTheorem]: https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)
+[PrimalityTestPython]: https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python:_Proved_correct_up_to_large_N
