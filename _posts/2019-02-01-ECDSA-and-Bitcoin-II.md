@@ -14,7 +14,6 @@ In previous post, we've got some general ideas about ECDSA, this post will focus
 ----
 ****
 <br>
-<br>
 ## I. Base point and order
 ### 1. Base point and it's generated group
 {% katexmm %}
